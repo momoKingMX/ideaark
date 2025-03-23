@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaArk - Web resource navigation</title>
+    <meta name="description" content="专业的网站资源导航，收集SEO、网站搭建、模板等实用工具">
+    <!-- 引入TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 自定义TailwindCSS配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#007aff', // 苹果蓝色
+                        secondary: '#f5f5f7', // 苹果浅灰色
+                        dark: '#1d1d1f', // 苹果深色
+                    },
+                    fontFamily: {
+                        sans: ['SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'apple': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'apple-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- 自定义样式 -->
+    <style type="text/tailwindcss">
+        @layer components {
+            /* 苹果风格的卡片 */
+            .card {
+                @apply bg-white rounded-xl shadow-apple transition-all duration-300 overflow-hidden;
+            }
+            .card:hover {
+                @apply shadow-apple-hover transform -translate-y-1;
+            }
+            /* 苹果风格的按钮 */
+            .btn-apple {
+                @apply px-4 py-2 bg-primary text-white rounded-full transition-all duration-300;
+            }
+            .btn-apple:hover {
+                @apply bg-opacity-90;
+            }
+            /* 苹果风格的搜索框 */
+            .search-apple {
+                @apply bg-secondary border-none rounded-full px-5 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+            }
+            /* 类别标签 */
+            .category-tag {
+                @apply px-4 py-2 rounded-full text-sm transition-all duration-300 cursor-pointer;
+            }
+            .category-tag.active {
+                @apply bg-primary text-white;
+            }
+            .category-tag:not(.active) {
+                @apply bg-secondary text-dark hover:bg-gray-200;
+            }
+            /* 子类别标签 */
+            .subcategory-tag {
+                @apply px-3 py-1 rounded-full text-xs transition-all duration-300 cursor-pointer mx-1;
+            }
+            .subcategory-tag.active {
+                @apply bg-primary text-white;
+            }
+            .subcategory-tag:not(.active) {
+                @apply bg-gray-100 text-dark hover:bg-gray-200;
+            }
+        }
+    </style>
+    <!-- 主样式文件 -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-white text-dark antialiased">
+    <!-- 头部区域 -->
+    <header class="sticky top-0 bg-white bg-opacity-95 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <!-- 网站标题 -->
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold">IdeaArk</h1>
+                    <div class="ml-4 text-sm bg-gray-100 rounded-full px-3 py-1">
+                        <button id="lang-toggle" class="focus:outline-none">
+                            中文 / EN
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="w-full md:w-96">
+                    <div class="relative">
+                        <input type="search" id="search-input" placeholder="搜索资源..." class="search-apple w-full">
+                        <svg class="absolute right-4 top-2.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主分类导航 -->
+    <div class="container mx-auto px-4 py-4 overflow-x-auto">
+        <div class="flex space-x-2 min-w-max pb-2">
+            <div class="category-tag active" data-category="all">全部</div>
+            <div class="category-tag" data-category="keyword">需求收集和关键词调研</div>
+            <div class="category-tag" data-category="essential">上站必备</div>
+            <div class="category-tag" data-category="research">竞品调研</div>
+            <div class="category-tag" data-category="template">上站模版</div>
+            <div class="category-tag" data-category="nav">导航站模板</div>
+            <div class="category-tag" data-category="news">资讯</div>
+        </div>
+    </div>
+    
+    <!-- 二级分类导航 - 上站必备 -->
+    <div id="essential-subcategories" class="container mx-auto px-4 py-2 overflow-x-auto border-t border-gray-100 hidden">
+        <div class="flex space-x-1 min-w-max items-center">
+            <span class="text-xs text-gray-500 mr-2">二级分类:</span>
+            <div class="subcategory-tag active" data-subcategory="all">全部</div>
+            <div class="subcategory-tag" data-subcategory="domain-search">域名查询</div>
+            <div class="subcategory-tag" data-subcategory="domain-register">域名注册</div>
+            <div class="subcategory-tag" data-subcategory="hosting">代码&网站托管</div>
+            <div class="subcategory-tag" data-subcategory="data">数据后台</div>
+        </div>
+    </div>
+    
+    <!-- 内容区 -->
+    <main class="container mx-auto px-4 py-4">
+        <!-- 卡片网格 -->
+        <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <!-- 卡片将通过JavaScript动态生成 -->
+        </div>
+    </main>
+    
+    <!-- 底部 -->
+    <footer class="bg-secondary mt-12 py-8">
+        <div class="container mx-auto px-4 text-center text-gray-600">
+            <p>© 2025 导航站 - 从创意到产品，只需一个网站</p>
+            <p class="mt-2 text-sm">专注于提供优质SEO工具、网站模板和建站资源</p>
+        </div>
+    </footer>
+    
+    <!-- 创建资源目录结构 -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 
